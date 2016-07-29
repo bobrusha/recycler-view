@@ -15,6 +15,7 @@ import ru.yandex.yamblz.ui.fragments.ContentFragment;
 import ru.yandex.yamblz.ui.other.ViewModifier;
 
 public class MainActivity extends BaseActivity {
+    private static final String COLORS_FRAGMENT_TAG = "COLORS_FRAGMENT_TAG";
 
     @Inject
     @Named(DeveloperSettingsModule.MAIN_ACTIVITY_VIEW_MODIFIER)
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_frame_layout, new ContentFragment(), "qq")
+                    .replace(R.id.main_frame_layout, new ContentFragment(), COLORS_FRAGMENT_TAG)
                     .commit();
         }
     }
@@ -39,7 +40,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        ContentFragment fragment = (ContentFragment) getSupportFragmentManager().findFragmentByTag("qq");
+        ContentFragment fragment = (ContentFragment) getSupportFragmentManager()
+                .findFragmentByTag(COLORS_FRAGMENT_TAG);
         if (fragment == null) {
             return super.onKeyDown(keyCode, event);
         }

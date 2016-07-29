@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import ru.yandex.yamblz.R;
 
-class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> {
+class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> implements ItemTouchHelperAdapter {
 
     private final Random rnd = new Random();
     private final List<Integer> colors = new ArrayList<>();
@@ -38,6 +39,27 @@ class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> 
             colors.add(Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
         }
         return colors.get(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; ++i) {
+                Collections.swap(colors, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; --i) {
+                Collections.swap(colors, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        colors.remove(position);
+        notifyItemRemoved(position);
     }
 
     static class ContentHolder extends RecyclerView.ViewHolder {
