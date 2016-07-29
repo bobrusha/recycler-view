@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.yandex.yamblz.R;
+import ru.yandex.yamblz.ui.decorators.BorderItemDecoration;
 
 public class ContentFragment extends BaseFragment {
     public static final String DEBUG_TAG = ContentFragment.class.getName();
@@ -67,7 +68,7 @@ public class ContentFragment extends BaseFragment {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rv);
 
-        decoration = new BorderItemDecorator();
+        decoration = new BorderItemDecoration();
         if (bordersIsShown) {
             rv.addItemDecoration(decoration);
         }
