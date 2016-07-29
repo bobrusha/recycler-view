@@ -48,8 +48,17 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
             View iv = viewHolder.itemView;
             if (dX > 0) {
                 Log.d(DEBUG_TAG, "in dx > 0");
-                RectF background = new RectF((float) iv.getLeft(), (float) iv.getTop(), dX, (float) iv.getBottom());
-                paint.setAlpha((int) (255 * (dX / iv.getWidth())));
+
+                RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+                float left = lm.getDecoratedLeft(iv);
+                float top = lm.getDecoratedTop(iv);
+                float right = left + dX;
+                float bottom = lm.getDecoratedBottom(iv);
+                RectF background = new RectF(left, top, right, bottom);
+
+                int alpha = (int) Math.min(255 * dX / iv.getWidth(), 255);
+                paint.setAlpha(alpha);
+
                 c.drawRect(background, paint);
             }
         }
