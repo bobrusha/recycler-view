@@ -13,15 +13,23 @@ import java.util.List;
 import java.util.Random;
 
 import ru.yandex.yamblz.R;
-import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
 
-class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> implements ItemTouchHelperAdapter {
+public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> implements ItemTouchHelperAdapter {
     private final Random rnd = new Random();
     private final List<Integer> colors = new ArrayList<>();
 
     @Override
     public ContentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ContentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item, parent, false));
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item, parent, false);
+        ContentHolder h = new ContentHolder(v);
+        v.setOnClickListener(v1 -> {
+            int pos = h.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                colors.set(pos, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
+                notifyItemChanged(pos);
+            }
+        });
+        return h;
     }
 
     @Override
@@ -63,7 +71,7 @@ class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> 
         notifyItemRemoved(position);
     }
 
-    static class ContentHolder extends RecyclerView.ViewHolder {
+    public static class ContentHolder extends RecyclerView.ViewHolder {
         ContentHolder(View itemView) {
             super(itemView);
         }

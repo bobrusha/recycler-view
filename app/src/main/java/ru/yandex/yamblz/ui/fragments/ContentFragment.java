@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.yandex.yamblz.R;
 import ru.yandex.yamblz.ui.decorators.BorderItemDecoration;
+import ru.yandex.yamblz.ui.decorators.ColorItemAnimator;
 import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
 
 public class ContentFragment extends BaseFragment {
@@ -76,7 +77,14 @@ public class ContentFragment extends BaseFragment {
         ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(adapter, lastTwoDecorator);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rv);
+
+        ColorItemAnimator animator = new ColorItemAnimator();
+        animator.setChangeDuration(1000);
+        rv.setItemAnimator(animator);
+
+
         setImageToFab();
+
     }
 
     public void incrementNumberOfColumns() {
