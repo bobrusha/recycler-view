@@ -65,7 +65,6 @@ public class ContentFragment extends BaseFragment {
         rv.setAdapter(adapter);
 
 
-
         decoration = new BorderItemDecoration();
         if (bordersIsShown) {
             rv.addItemDecoration(decoration);
@@ -83,17 +82,22 @@ public class ContentFragment extends BaseFragment {
     public void incrementNumberOfColumns() {
         Log.d(DEBUG_TAG, "in increment");
         ++numberOfColumns;
-        layoutManager.setSpanCount(numberOfColumns);
-        adapter.notifyDataSetChanged();
+        updateNumberOfColumns();
     }
 
     public void decrementNumberOfColumns() {
         Log.d(DEBUG_TAG, "in decrement");
         if (numberOfColumns > DEFAULT_COLUMNS_NUMBER) {
             --numberOfColumns;
-            layoutManager.setSpanCount(numberOfColumns);
-            adapter.notifyDataSetChanged();
+            updateNumberOfColumns();
         }
+    }
+
+    public void updateNumberOfColumns() {
+        final int first = layoutManager.findFirstVisibleItemPosition();
+        layoutManager.setSpanCount(numberOfColumns);
+        rv.requestLayout();
+        rv.getAdapter().notifyItemRangeChanged(first, 0);
     }
 
     @Override
