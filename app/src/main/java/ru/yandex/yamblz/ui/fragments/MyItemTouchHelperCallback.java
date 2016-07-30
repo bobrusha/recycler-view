@@ -23,6 +23,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private int from = -1;
     private int to = -1;
 
+
     public MyItemTouchHelperCallback(ItemTouchHelperAdapter adapter, LastTwoDecorator lastTwoDecorator) {
         this.adapter = adapter;
         paint = new Paint();
@@ -50,34 +51,24 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (from == -1) {
             from = fromPos;
         }
-        Log.d(DEBUG_TAG, "from: " + from);
-        Log.d(DEBUG_TAG, "fromPos" + fromPos + "toPos" + toPos + "x" + x + "y" + y);
-        RecyclerView.ViewHolder adVH = recyclerView.findViewHolderForAdapterPosition(from);
-        if (adVH == null || adVH.getAdapterPosition() == RecyclerView.NO_POSITION) {
-            Log.d(DEBUG_TAG, "null or no position");
-        } else {
-            Log.d(DEBUG_TAG, adVH.toString());
-        }
 
-        RecyclerView.ViewHolder laVH = recyclerView.findViewHolderForLayoutPosition(from);
-        if (laVH == null || laVH.getAdapterPosition() == RecyclerView.NO_POSITION) {
-            Log.d(DEBUG_TAG, "null or no position");
-        } else {
-            Log.d(DEBUG_TAG, laVH.toString());
-        }
-
+        to = toPos;
         lastTwoDecorator.setPositionFrom(from);
-        lastTwoDecorator.setPositionTo(toPos);
+        lastTwoDecorator.setPositionTo(to);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
         from = -1;
+        to = -1;
     }
+
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        lastTwoDecorator.setPositionFrom(-1);
+        lastTwoDecorator.setPositionTo(-1);
         adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 

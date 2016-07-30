@@ -23,10 +23,10 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentH
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item, parent, false);
         ContentHolder h = new ContentHolder(v);
         v.setOnClickListener(v1 -> {
-            int pos = h.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-                colors.set(pos, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
-                notifyItemChanged(pos);
+            int position = h.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                colors.set(position, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
+                notifyItemChanged(position);
             }
         });
         return h;

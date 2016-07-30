@@ -82,9 +82,7 @@ public class ContentFragment extends BaseFragment {
         animator.setChangeDuration(1000);
         rv.setItemAnimator(animator);
 
-
         setImageToFab();
-
     }
 
     public void incrementNumberOfColumns() {

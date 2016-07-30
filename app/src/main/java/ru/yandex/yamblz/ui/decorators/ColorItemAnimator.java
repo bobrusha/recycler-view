@@ -53,7 +53,6 @@ public class ColorItemAnimator extends DefaultItemAnimator {
         newTextRotate.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                animatorsMap.remove(holder);
                 dispatchAnimationFinished(holder);
             }
         });
@@ -61,13 +60,15 @@ public class ColorItemAnimator extends DefaultItemAnimator {
 
         AnimatorSet set = new AnimatorSet();
         set.play(oldTextRotate).before(newTextRotate);
-        animatorsMap.put(holder, set);
         set.start();
-
 
         return super.animateChange(oldHolder, newHolder, preInfo, postInfo);
     }
 
+    @Override
+    public boolean canReuseUpdatedViewHolder(RecyclerView.ViewHolder viewHolder) {
+        return true;
+    }
 
     @NonNull
     @Override

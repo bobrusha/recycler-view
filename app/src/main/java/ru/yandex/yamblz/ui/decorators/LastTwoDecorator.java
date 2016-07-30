@@ -21,6 +21,7 @@ public class LastTwoDecorator extends RecyclerView.ItemDecoration {
     public LastTwoDecorator() {
         paint = new Paint();
         paint.setColor(Color.WHITE);
+        paint.setAlpha(127);
         paint.setStyle(Paint.Style.FILL);
     }
 
@@ -43,6 +44,7 @@ public class LastTwoDecorator extends RecyclerView.ItemDecoration {
     public void drawMark(Canvas c, View child, RecyclerView parent) {
         Log.v(DEBUG_TAG, "on Draw Mark");
         RecyclerView.LayoutManager lm = parent.getLayoutManager();
+
         RectF rect = new RectF(
                 lm.getDecoratedLeft(child),
                 lm.getDecoratedTop(child),
@@ -50,7 +52,7 @@ public class LastTwoDecorator extends RecyclerView.ItemDecoration {
                 lm.getDecoratedBottom(child)
         );
         Log.d(DEBUG_TAG, rect.toString());
-        c.drawOval(rect, paint);
+        c.drawRect(rect, paint);
     }
 
 
