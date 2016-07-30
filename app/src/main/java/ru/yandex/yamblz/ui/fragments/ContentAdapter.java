@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Random;
 
 import ru.yandex.yamblz.R;
+import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
 
 class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> implements ItemTouchHelperAdapter {
-
     private final Random rnd = new Random();
     private final List<Integer> colors = new ArrayList<>();
 
@@ -43,6 +43,7 @@ class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentHolder> 
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; ++i) {
                 Collections.swap(colors, i, i + 1);

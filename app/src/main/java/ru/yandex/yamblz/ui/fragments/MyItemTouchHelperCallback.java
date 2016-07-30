@@ -9,18 +9,26 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
+import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
+
 /**
  * Created by Aleksandra on 29/07/16.
  */
 public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private static final String DEBUG_TAG = MyItemTouchHelperCallback.class.getName();
+    private final LastTwoDecorator lastTwoDecorator;
     private final ItemTouchHelperAdapter adapter;
     private final Paint paint;
 
-    public MyItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    private int from = -1;
+    private int to = -1;
+
+    public MyItemTouchHelperCallback(ItemTouchHelperAdapter adapter, LastTwoDecorator lastTwoDecorator) {
         this.adapter = adapter;
         paint = new Paint();
         paint.setColor(Color.RED);
+
+        this.lastTwoDecorator = lastTwoDecorator;
     }
 
     @Override
@@ -33,6 +41,39 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         return adapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+    }
+
+    @Override
+    public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
+        super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+
+        if (from == -1) {
+            from = fromPos;
+        }
+        Log.d(DEBUG_TAG, "from: " + from);
+        Log.d(DEBUG_TAG, "fromPos" + fromPos + "toPos" + toPos + "x" + x + "y" + y);
+        RecyclerView.ViewHolder adVH = recyclerView.findViewHolderForAdapterPosition(from);
+        if (adVH == null || adVH.getAdapterPosition() == RecyclerView.NO_POSITION) {
+            Log.d(DEBUG_TAG, "null or no position");
+        } else {
+            Log.d(DEBUG_TAG, adVH.toString());
+        }
+
+        RecyclerView.ViewHolder laVH = recyclerView.findViewHolderForLayoutPosition(from);
+        if (laVH == null || laVH.getAdapterPosition() == RecyclerView.NO_POSITION) {
+            Log.d(DEBUG_TAG, "null or no position");
+        } else {
+            Log.d(DEBUG_TAG, laVH.toString());
+        }
+
+        lastTwoDecorator.setPositionFrom(from);
+        lastTwoDecorator.setPositionTo(toPos);
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        from = -1;
     }
 
     @Override

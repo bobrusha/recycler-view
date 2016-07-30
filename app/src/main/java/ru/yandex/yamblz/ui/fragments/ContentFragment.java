@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.yandex.yamblz.R;
 import ru.yandex.yamblz.ui.decorators.BorderItemDecoration;
+import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
 
 public class ContentFragment extends BaseFragment {
     public static final String DEBUG_TAG = ContentFragment.class.getName();
@@ -63,15 +64,19 @@ public class ContentFragment extends BaseFragment {
         adapter = new ContentAdapter();
         rv.setAdapter(adapter);
 
-        ItemTouchHelper.Callback callback =
-                new MyItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(rv);
+
 
         decoration = new BorderItemDecoration();
         if (bordersIsShown) {
             rv.addItemDecoration(decoration);
         }
+
+        LastTwoDecorator lastTwoDecorator = new LastTwoDecorator();
+        rv.addItemDecoration(lastTwoDecorator);
+
+        ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(adapter, lastTwoDecorator);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rv);
         setImageToFab();
     }
 
