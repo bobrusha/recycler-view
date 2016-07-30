@@ -26,8 +26,10 @@ public class ColorItemAnimator extends DefaultItemAnimator {
     private final Map<RecyclerView.ViewHolder, Animator> animatorsMap = new HashMap<>();
 
     @Override
-    public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder, @NonNull final RecyclerView.ViewHolder newHolder,
-                                 @NonNull ItemHolderInfo preInfo, @NonNull ItemHolderInfo postInfo) {
+    public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder,
+                                 @NonNull final RecyclerView.ViewHolder newHolder,
+                                 @NonNull ItemHolderInfo preInfo,
+                                 @NonNull ItemHolderInfo postInfo) {
         final ContentAdapter.ContentHolder holder = (ContentAdapter.ContentHolder) newHolder;
         final ColorTextInfo preColorTextInfo = (ColorTextInfo) preInfo;
         final ColorTextInfo postColorTextInfo = (ColorTextInfo) postInfo;
@@ -72,7 +74,10 @@ public class ColorItemAnimator extends DefaultItemAnimator {
 
     @NonNull
     @Override
-    public ItemHolderInfo recordPreLayoutInformation(@NonNull RecyclerView.State state, @NonNull RecyclerView.ViewHolder viewHolder, int changeFlags, @NonNull List<Object> payloads) {
+    public ItemHolderInfo recordPreLayoutInformation(@NonNull RecyclerView.State state,
+                                                     @NonNull RecyclerView.ViewHolder viewHolder,
+                                                     int changeFlags,
+                                                     @NonNull List<Object> payloads) {
         ColorTextInfo colorTextInfo = new ColorTextInfo();
         colorTextInfo.setFrom(viewHolder);
         return colorTextInfo;
