@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,24 +31,22 @@ public class ColorItemAnimator extends DefaultItemAnimator {
                                      @Nullable ItemHolderInfo preLayoutInfo,
                                      @NonNull ItemHolderInfo postLayoutInfo) {
 
-        Log.d(DEBUG_TAG, "in animate appearance");
 
         View v = viewHolder.itemView;
-        animate(v);
+        if (v != null) {
+            // setting animation
+            ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ROTATION_X, 0, 360);
+            animator.setDuration(1000);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    dispatchAnimationsFinished();
+                }
+            });
+            animator.start();
+        }
 
         return super.animateAppearance(viewHolder, preLayoutInfo, postLayoutInfo);
-    }
-
-    public void animate(View v) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ROTATION_X, 0, 360);
-        animator.setDuration(1000);
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                dispatchAnimationsFinished();
-            }
-        });
-        animator.start();
     }
 
     @Override
@@ -61,6 +58,7 @@ public class ColorItemAnimator extends DefaultItemAnimator {
         final ColorTextInfo preColorTextInfo = (ColorTextInfo) preInfo;
         final ColorTextInfo postColorTextInfo = (ColorTextInfo) postInfo;
 
+        // setting animation
         ObjectAnimator oldTextRotate = ObjectAnimator.ofFloat(holder.itemView, View.ROTATION_X, 0, 90);
         oldTextRotate.addListener(new AnimatorListenerAdapter() {
             @Override
