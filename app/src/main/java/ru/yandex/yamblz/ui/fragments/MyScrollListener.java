@@ -17,18 +17,37 @@ public class MyScrollListener extends RecyclerView.OnScrollListener {
 
     public MyScrollListener(GridLayoutManager gridLayoutManager) {
         this.gridLayoutManager = gridLayoutManager;
-    }
-
-    @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
+        oldFirst = gridLayoutManager.findFirstVisibleItemPosition();
+        oldLast = gridLayoutManager.findLastVisibleItemPosition();
     }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        Log.d(DEBUG_TAG, "x " + dx + " dy" + dy);
-        recyclerView.getAdapter().notifyItemInserted(gridLayoutManager.findLastVisibleItemPosition());
+        Log.d(DEBUG_TAG, "dx " + dx + " dy" + dy);
+
+        int newFirst = gridLayoutManager.findFirstVisibleItemPosition();
+        int newLast = gridLayoutManager.findLastVisibleItemPosition();
+        int spanCount = gridLayoutManager.getSpanCount();
+
+        // dy < – up, dy > 0 - down
+        if (dy < 0) {
+            if (oldFirst != newFirst) {
+                for (int adapterPos = newFirst; adapterPos < newFirst + spanCount; adapterPos++) {
+                    recyclerView.getAdapter().notifyItemRemoved(adapterPos);
+                    recyclerView.getAdapter().notifyItemInserted(adapterPos);
+                }
+            }
+        } else {
+            if (oldLast != newLast) {
+                for (int adapterPos = newLast - spanCount + 1; adapterPos <= newLast; adapterPos++) {
+                    recyclerView.getAdapter().notifyItemRemoved(adapterPos);
+                    recyclerView.getAdapter().notifyItemInserted(adapterPos);
+                }
+            }
+        }
+        oldFirst = newFirst;
+        oldLast = newLast;
     }
 
 }
