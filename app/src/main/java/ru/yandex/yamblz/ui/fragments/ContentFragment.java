@@ -82,6 +82,7 @@ public class ContentFragment extends BaseFragment {
         animator.setChangeDuration(1000);
         rv.setItemAnimator(animator);
 
+        rv.addOnScrollListener(new MyScrollListener(layoutManager));
         setImageToFab();
     }
 
