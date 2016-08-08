@@ -43,8 +43,8 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentH
     }
 
     private Integer createColorForPosition(int position) {
-        if (position >= colors.size()) {
-            colors.add(Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
+        for (int i = colors.size(); i <= position; ++i) {
+            colors.add(i, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
         }
         return colors.get(position);
     }
