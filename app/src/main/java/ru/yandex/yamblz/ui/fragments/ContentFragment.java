@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.yandex.yamblz.R;
+import ru.yandex.yamblz.ui.MyGridLayoutManager;
 import ru.yandex.yamblz.ui.decorators.BorderItemDecoration;
 import ru.yandex.yamblz.ui.decorators.ColorItemAnimator;
 import ru.yandex.yamblz.ui.decorators.LastTwoDecorator;
@@ -59,7 +60,7 @@ public class ContentFragment extends BaseFragment {
             bordersIsShown = savedInstanceState.getBoolean(STYLE_KEY, false);
         }
 
-        layoutManager = new GridLayoutManager(getContext(), numberOfColumns);
+        layoutManager = new MyGridLayoutManager(getContext(), numberOfColumns);
         rv.setLayoutManager(layoutManager);
 
         adapter = new ContentAdapter();
@@ -82,7 +83,7 @@ public class ContentFragment extends BaseFragment {
         animator.setChangeDuration(1000);
         rv.setItemAnimator(animator);
 
-        rv.addOnScrollListener(new MyScrollListener(layoutManager));
+
         setImageToFab();
     }
 
