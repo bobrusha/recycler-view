@@ -44,21 +44,26 @@ public class ColorItemAnimator extends DefaultItemAnimator {
             @Override
             public void onAnimationEnd(Animator animation) {
                 holder.itemView.setBackgroundColor(postColorTextInfo.color);
-
             }
         });
         oldTextRotate.setDuration(getChangeDuration() / 2);
 
         ObjectAnimator newTextRotate = ObjectAnimator.ofFloat(holder.itemView, View.ROTATION_X, 270, 360);
-        newTextRotate.addListener(new AnimatorListenerAdapter() {
+        newTextRotate.setDuration(getChangeDuration() / 2);
+
+        AnimatorSet set = new AnimatorSet();
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                dispatchAnimationStarted(holder);
+            }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 dispatchAnimationFinished(holder);
             }
-        });
-        newTextRotate.setDuration(getChangeDuration() / 2);
 
-        AnimatorSet set = new AnimatorSet();
+        });
         set.play(oldTextRotate).before(newTextRotate);
         set.start();
 

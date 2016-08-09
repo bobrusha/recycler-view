@@ -7,13 +7,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.yandex.yamblz.R;
 import ru.yandex.yamblz.ui.MyGridLayoutManager;
@@ -46,9 +46,7 @@ public class ContentFragment extends BaseFragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_content, container, false);
-        ButterKnife.bind(this, v);
-        return v;
+        return inflater.inflate(R.layout.fragment_content, container, false);
     }
 
     @Override
@@ -69,8 +67,7 @@ public class ContentFragment extends BaseFragment {
 
         rv.setAdapter(adapter);
 
-
-        decoration = new BorderItemDecoration();
+        decoration = new BorderItemDecoration(convertDpToPx(16));
         if (bordersIsShown) {
             rv.addItemDecoration(decoration);
         }
@@ -139,5 +136,9 @@ public class ContentFragment extends BaseFragment {
         }
     }
 
+    public int convertDpToPx(int dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
 
 }

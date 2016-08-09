@@ -10,16 +10,19 @@ import android.view.View;
  */
 public class BorderItemDecoration extends RecyclerView.ItemDecoration {
     private static final String DEBUG_TAG = BorderItemDecoration.class.getName();
-    private static final int BORDER_WIDTH = 16;
     private static final int ALPHA = 127;
     private final Paint paint;
+    /** In pixels */
+    private final int borderWidth;
 
 
-    public BorderItemDecoration() {
+    public BorderItemDecoration(int borderWidth) {
+        this.borderWidth = borderWidth;
+
         paint = new Paint();
-        paint.setStrokeWidth(BORDER_WIDTH);
         paint.setAlpha(ALPHA);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(borderWidth);
     }
 
     @Override
@@ -33,10 +36,10 @@ public class BorderItemDecoration extends RecyclerView.ItemDecoration {
             if (position % 2 == 0) {
                 RecyclerView.LayoutManager lm = parent.getLayoutManager();
 
-                final int top = lm.getDecoratedTop(child) + BORDER_WIDTH / 2;
-                final int bottom = lm.getDecoratedBottom(child) - BORDER_WIDTH / 2;
-                final int left = lm.getDecoratedLeft(child) + BORDER_WIDTH / 2;
-                final int right = lm.getDecoratedRight(child) - BORDER_WIDTH / 2;
+                final int top = lm.getDecoratedTop(child) + borderWidth / 2;
+                final int bottom = lm.getDecoratedBottom(child) - borderWidth / 2;
+                final int left = lm.getDecoratedLeft(child) + borderWidth / 2;
+                final int right = lm.getDecoratedRight(child) - borderWidth / 2;
 
                 c.drawRect(left, top, right, bottom, paint);
             }
