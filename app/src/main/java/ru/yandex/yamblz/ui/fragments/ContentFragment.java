@@ -64,6 +64,9 @@ public class ContentFragment extends BaseFragment {
         rv.setLayoutManager(layoutManager);
 
         adapter = new ContentAdapter();
+        rv.setHasFixedSize(true);
+        rv.getRecycledViewPool().setMaxRecycledViews(0, 100);
+
         rv.setAdapter(adapter);
 
 
@@ -82,7 +85,6 @@ public class ContentFragment extends BaseFragment {
         ColorItemAnimator animator = new ColorItemAnimator();
         animator.setChangeDuration(1000);
         rv.setItemAnimator(animator);
-
 
         setImageToFab();
     }

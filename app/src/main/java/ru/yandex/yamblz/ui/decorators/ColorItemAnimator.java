@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,13 +38,11 @@ public class ColorItemAnimator extends DefaultItemAnimator {
         oldTextRotate.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                ((TextView) holder.itemView).setText(preColorTextInfo.text);
                 holder.itemView.setBackgroundColor(preColorTextInfo.color);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ((TextView) holder.itemView).setText(postColorTextInfo.text);
                 holder.itemView.setBackgroundColor(postColorTextInfo.color);
 
             }
@@ -95,14 +92,12 @@ public class ColorItemAnimator extends DefaultItemAnimator {
 
     private class ColorTextInfo extends ItemHolderInfo {
         int color;
-        String text;
 
         @Override
         public ItemHolderInfo setFrom(RecyclerView.ViewHolder holder) {
             if (holder instanceof ContentAdapter.ContentHolder) {
                 ContentAdapter.ContentHolder colorViewHolder = (ContentAdapter.ContentHolder) holder;
                 color = ((ColorDrawable) colorViewHolder.itemView.getBackground()).getColor();
-                text = (String) ((TextView) colorViewHolder.itemView).getText();
             }
             return super.setFrom(holder);
         }
