@@ -20,15 +20,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentH
     @Override
     public ContentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item, parent, false);
-        ContentHolder h = new ContentHolder(v);
-        v.setOnClickListener(v1 -> {
-            int position = h.getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                colors.set(position, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
-                notifyItemChanged(position);
-            }
-        });
-        return h;
+        return new ContentHolder(v);
     }
 
     @Override
@@ -70,9 +62,16 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentH
         notifyItemRemoved(position);
     }
 
-    public static class ContentHolder extends RecyclerView.ViewHolder {
+    public class ContentHolder extends RecyclerView.ViewHolder {
         ContentHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(v1 -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    ContentAdapter.this.colors.set(position, Color.rgb(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)));
+                    notifyItemChanged(position);
+                }
+            });
         }
 
         void bind(Integer color) {
